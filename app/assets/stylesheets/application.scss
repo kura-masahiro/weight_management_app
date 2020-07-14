@@ -1,0 +1,12 @@
+/* ...
+*= require flatpickr
+*= require flatpickr/themes/material_blue
+ */
+
+@import "bootstrap";
+
+.graph-container {
+  @extend .container-fluid;
+  max-width: 768px;
+  padding: 1rem;
+}
