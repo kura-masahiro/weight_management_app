@@ -10,7 +10,8 @@ document.addEventListener('turbolinks:load', () => {
 
   const chartWeightContext = document.getElementById("chart-weight").getContext('2d')
 
- 
+  let chartWeight
+
   const drawGraph = (from, to) => {
    
     let records = gon.weight_records.filter((record) => {
@@ -42,7 +43,7 @@ document.addEventListener('turbolinks:load', () => {
     let weightOption = {
       tooltips: {
         callbacks: {
-          // ホバー（スマホならタップ）時のラベル表示を変更
+          
           title: function (tooltipItems) {
             return tooltipItems[0].xLabel.replace(/^(\d+).(\d+)$/, ' $1 月 $2 日')
           },
@@ -53,13 +54,20 @@ document.addEventListener('turbolinks:load', () => {
       }
     }
 
-    new Chart(chartWeightContext, {
-      type: 'line',
-      data: weightData,
-      options: weightOption
-    })
+    if (!chartWeight) {
+      
+      chartWeight = new Chart(chartWeightContext, {
+        type: 'line',
+        data: weightData,
+        options: weightOption
+      })
+    } else {
+     
+      chartWeight.data = weightData
+      chartWeight.options = weightOption
+      chartWeight.update()
+    }
   }
 
-  // グラフの初期表示
   drawGraph(A_WEEK_AGO, TODAY)
 })
